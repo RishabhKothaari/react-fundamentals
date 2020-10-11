@@ -1,7 +1,5 @@
-// Basic Forms
-// http://localhost:3000/isolated/exercise/06.js
-
 import React from 'react'
+/*3 Never let the user to type upper case*/
 
 function UsernameForm({onSubmitUsername}) {
   // 🐨 add a submit event handler here (`handleSubmit`).
@@ -28,22 +26,32 @@ function UsernameForm({onSubmitUsername}) {
   //     <button type="submit">Submit</button>
   //   </form>
   // )
-  
+  const labelProps = {children: 'Username:'}
+  const inputProp = {name: 'username', type: 'text', id: 'usernameInput'}
+  const buttonProps = {type: 'submit', children: 'Submit'}
+  const [usernameInputValue, setUsernameInputValue] = React.useState('')
+
   const handleSubmit = e => {
     e.preventDefault()
-    onSubmitUsername(e.target.elements.usernameInput.value)
+    onSubmitUsername(usernameInputValue)
   }
-  const labelProps = {children:'Username:'}
-  const inputProp = {name:'username',type:'text',id:'usernameInput'}
-  const buttonProps = {type:'submit',children:'Submit'}
+
+  const handleChange = e => {
+    setUsernameInputValue(e.target.value.toLowerCase())
+  }
+
   const form = (
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div>
-      <label htmlFor='usernameInput' {...labelProps}/>
-      <input {...inputProp}/>
+        <label htmlFor="usernameInput" {...labelProps} />
+        <input
+          onChange={handleChange}
+          {...inputProp}
+          value={usernameInputValue}
+        />
       </div>
-      <button {...buttonProps}/>
-      </form>
+      <button {...buttonProps} />
+    </form>
   )
   return form
 }
@@ -52,4 +60,5 @@ function App() {
   const onSubmitUsername = username => alert(`You entered: ${username}`)
   return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
+
 export default App

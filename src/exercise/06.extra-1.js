@@ -1,7 +1,8 @@
 // Basic Forms
 // http://localhost:3000/isolated/exercise/06.js
 
-import React from 'react'
+// Using ref access the value
+import React, {useRef} from 'react'
 
 function UsernameForm({onSubmitUsername}) {
   // 🐨 add a submit event handler here (`handleSubmit`).
@@ -28,22 +29,23 @@ function UsernameForm({onSubmitUsername}) {
   //     <button type="submit">Submit</button>
   //   </form>
   // )
-  
-  const handleSubmit = e => {
+  const labelProps = {children: 'Username:'}
+  const inputProp = {name: 'username', type: 'text', id: 'usernameInput'}
+  const buttonProps = {type: 'submit', children: 'Submit'}
+  const usernameRef = useRef(null)
+  const onformSubmit = e => {
     e.preventDefault()
-    onSubmitUsername(e.target.elements.usernameInput.value)
+    onSubmitUsername(e.target.usernameInput.value)
   }
-  const labelProps = {children:'Username:'}
-  const inputProp = {name:'username',type:'text',id:'usernameInput'}
-  const buttonProps = {type:'submit',children:'Submit'}
+
   const form = (
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={onformSubmit}>
       <div>
-      <label htmlFor='usernameInput' {...labelProps}/>
-      <input {...inputProp}/>
+        <label {...labelProps} />
+        <input ref={usernameRef} {...inputProp} />
       </div>
-      <button {...buttonProps}/>
-      </form>
+      <button {...buttonProps} />
+    </form>
   )
   return form
 }
@@ -52,4 +54,5 @@ function App() {
   const onSubmitUsername = username => alert(`You entered: ${username}`)
   return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
+
 export default App
